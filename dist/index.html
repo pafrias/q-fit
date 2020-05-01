@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pablo's Trello Board</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script>
+    // get web token
+    const config = {
+      el: '#APPLICATION_ROOT',
+      data: {
+        firstName: 'Terri',
+        lastName: "Testing",
+        age: null,
+        email: null,
+        weightKG: null,
+        workouts: []
+
+      }
+    };
+
+    const LS = window.localStorage;
+    var state = LS.getItem('Quarantine Fitness State');
+    try {
+      state = JSON.parse(state);
+      if (state.isLoggedIn) {
+        var options = {
+          auth: token
+        }
+
+        axios.get('/profile', options)
+        .then(response => {
+        let somethingIsWrong = false;
+          if (response.code === 404) {
+          // log out, prompt password, do something
+          } else if (!somethingIsWrong) {
+          // log out, prompt password, do something
+          } else {
+            config.data = response.data;
+            // render view
+          }
+        }).catch(e => {
+          console.log(e);
+          // log out, prompt password, do something
+        })
+      }
+    } catch {
+
+    } finally {
+      new Vue(config);
+    }
+    
+  </script>
+  <!--
+    Goal:
+    Users don't need to login to store workout data.
+    Workouts can be exported and imported via string.
+    Use localStorage to cache data
+
+    Implementation:
+    render loading screen after some short interval
+
+    if no state,
+      Gently remind them to log in and save their workouts
+      render the home page with default data
+    if state exists and user is logged in,
+      ask server for updates, using a token string to validate
+      if an error is returned
+        logOut() and reload page (or to '/profiles' ?)
+      do, render home page with users data
+    if state exists but no user 
+      render home page with users data
+      Gently remind them to log in and save their workouts
+  -->
+</head>
+<body>
+  <h1>
+
+  </h1>
+  
+</body>
+</html>
